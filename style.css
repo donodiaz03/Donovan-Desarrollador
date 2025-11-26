@@ -67,12 +67,12 @@ body::after {
     font-weight: 800; /* Más audaz */
     text-align: center;
     margin-bottom: 2rem;
-    color: #2c3e50;
+    color: #1f2937; /* Gris oscuro para mayor contraste */
     position: relative;
     padding-bottom: 10px;
     opacity: 0; /* Para animación de revelado de texto */
     transform: translateY(20px);
-    transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s; /* Retraso para aparecer después de la sección */
+    transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
 }
 
 .section-title.is-visible {
@@ -85,9 +85,9 @@ body::after {
     position: absolute;
     left: 50%;
     bottom: 0;
-    transform: translateX(-50%) scaleX(0); /* Inicialmente escondido */
-    width: 80px; /* Un poco más ancho */
-    height: 5px; /* Un poco más grueso */
+    transform: translateX(-50%) scaleX(0);
+    width: 80px;
+    height: 5px;
     background-color: #3b82f6; /* Color primario */
     border-radius: 2px;
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.8s; /* Animación elástica */
@@ -102,38 +102,44 @@ body::after {
 /* Header */
 .header {
     background-color: #ffffff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-radius: 0 0 25px 25px; /* Bordes más redondeados */
+    border-radius: 0 0 25px 25px;
     animation: fadeInDown 0.6s ease-out;
-    backdrop-filter: blur(8px); /* Efecto de cristal esmerilado */
-    background-color: rgba(255, 255, 255, 0.9); /* Ligeramente transparente */
+    backdrop-filter: blur(8px);
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 .logo {
-    font-size: 2rem; /* Más grande */
-    font-weight: 800;
+    font-family: 'Inter', sans-serif; /* Usar Inter para el logo */
+    font-size: 1.5rem; /* Más pequeño para nombres largos en móviles */
+    font-weight: 900;
     color: #3b82f6;
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
+@media (min-width: 768px) {
+    .logo {
+        font-size: 2rem;
+    }
+}
 
 .logo:hover {
     color: #2563eb;
-    transform: scale(1.05); /* Ligeramente más grande al pasar el mouse */
+    transform: scale(1.05);
 }
 
 .nav-menu .nav-link {
-    margin-left: 2.5rem; /* Más espacio */
+    margin-left: 1.5rem; /* Más compacto */
     color: #555;
-    font-weight: 600; /* Más audaz */
+    font-weight: 600;
     text-decoration: none;
     position: relative;
     transition: color 0.3s ease, transform 0.2s ease;
-    padding: 0.8rem 0; /* Más relleno */
-    overflow: hidden; /* Para el efecto de fondo */
+    padding: 0.8rem 0;
+    overflow: hidden;
 }
 
 .nav-menu .nav-link::before {
@@ -142,7 +148,7 @@ body::after {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 4px; /* Más grueso */
+    height: 4px;
     background-color: #3b82f6;
     transform: scaleX(0);
     transform-origin: left;
@@ -155,7 +161,7 @@ body::after {
 
 .nav-menu .nav-link:hover {
     color: #3b82f6;
-    transform: translateY(-3px); /* Ligeramente más arriba */
+    transform: translateY(-3px);
 }
 
 
@@ -170,26 +176,25 @@ body::after {
 
 .hero-content {
     max-width: 900px;
-    animation: fadeInScaleUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Nueva animación */
+    animation: fadeInScaleUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .hero-title {
-    font-size: 4.5rem; /* Más grande */
-    font-weight: 900; /* Aún más audaz */
+    font-size: 4.5rem;
+    font-weight: 900;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1); /* Sombra más suave */
-    overflow: hidden; /* Para la animación de revelado */
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-/* Animación de revelado para el título del héroe */
 .hero-title .highlight {
     color: #3b82f6;
 }
 
 .hero-subtitle {
-    font-size: 1.4rem; /* Más grande */
-    font-weight: 400;
+    font-size: 1.85rem;
+    font-weight: 500; /* Ligeramente más audaz */
     color: #555;
     animation: fadeIn 1.5s ease-out 0.8s forwards;
     opacity: 0;
@@ -199,24 +204,38 @@ body::after {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 55px; /* Más grande */
+    width: 55px;
     height: 55px;
     background-color: #ffffff;
     border-radius: 50%;
-    margin: 0 1rem; /* Más espacio */
+    margin: 0 1rem;
     color: #3b82f6;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición elástica */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border: 2px solid transparent;
 }
-
 .social-links .social-icon:hover {
     background-color: #3b82f6;
     color: #ffffff;
-    transform: translateY(-8px) scale(1.1) rotate(5deg); /* Efecto más dinámico */
+    transform: translateY(-8px) scale(1.1) rotate(5deg);
     box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
     border-color: #ffffff;
 }
+.social-links .social-icon svg {
+    /* Asegura que los iconos SVG tengan el color correcto */
+    stroke: currentColor; 
+}
+.social-links .social-icon img {
+    /* Estilo para las imágenes que se usen como iconos sociales (aunque se recomienda SVG) */
+    width: 24px;
+    height: 24px;
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(200deg); /* Color azulado para PNGs */
+    transition: all 0.3s ease;
+}
+.social-links .social-icon:hover img {
+    filter: invert(1) sepia(0) saturate(0) hue-rotate(0deg); /* Color blanco al pasar el mouse */
+}
+
 
 /* Animaciones para la sección Hero */
 @keyframes fadeInDown {
@@ -245,25 +264,9 @@ body::after {
 }
 
 
-/* About Section */
-.about-section {
-    background-color: #ffffff;
-    border-radius: 20px; /* Más redondeado */
-    margin: 2rem auto;
-    max-width: 1200px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1); /* Sombra más suave y extendida */
-}
-
-.about-text p {
-    margin-bottom: 1.5rem; /* Más espacio entre párrafos */
-    color: #444;
-    font-size: 1.1rem; /* Ligeramente más grande */
-}
-
-
-/* Studies Section */
+/* Estudios Section */
 .studies-section {
-    background-color: #fff;
+    background-color: #fff; /* Fondo blanco para contraste */
     border-radius: 20px;
     margin: 2rem auto;
     max-width: 1200px;
@@ -277,6 +280,7 @@ body::after {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: 100%; /* Asegura que todas las tarjetas tengan la misma altura */
     /* Estilos para animación de entrada escalonada */
     opacity: 0;
     transform: translateY(30px) scale(0.95);
@@ -290,6 +294,7 @@ body::after {
 }
 .studies-section.is-visible .study-item:nth-child(1) { transition-delay: 0.1s; }
 .studies-section.is-visible .study-item:nth-child(2) { transition-delay: 0.2s; }
+/* ... (agregar más para más tarjetas) */
 
 
 .study-item:hover {
@@ -299,36 +304,82 @@ body::after {
 }
 
 .study-logos {
-    min-height: 15px; /* Asegura una altura consistente */
+    min-height: 100px; /* Asegura una altura mínima para los logos */
 }
 
 .study-logo {
-    object-fit: contain; /* Previene la distorsión de los logos */
-    max-width: 150px; /* Limita el ancho de los logos */
+    object-fit: contain;
+    max-width: 120px;
+    margin: 0 10px;
 }
 
 .study-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #682440;
+    color: #682440; /* Color IPN */
 }
 
 .study-subtitle {
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
     color: #57585c;
 }
 
 .study-conalep-title {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #256c48;
+    color: #256c48; /* Color Conalep */
 }
 
-.study-description {
-    color: #555;
-    font-size: 120%;
+
+/* SECCIÓN DE CERTIFICACIONES */
+.certifications-section {
+    background-color: #f8f9fa; /* Fondo ligeramente gris */
+    border-radius: 20px;
+    margin: 2rem auto;
+    max-width: 1200px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
+
+.cert-item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    border: 1px solid #e5e7eb;
+}
+
+/* Animación escalonada para certificaciones */
+.certifications-section.is-visible .cert-item {
+    opacity: 1;
+    transform: translateY(0);
+}
+.certifications-section.is-visible .cert-item:nth-child(1) { transition-delay: 0.1s; }
+.certifications-section.is-visible .cert-item:nth-child(2) { transition-delay: 0.2s; }
+
+
+/* SECCIÓN DE SERVICIO SOCIAL */
+.social-service-section {
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 20px;
+    margin: 2rem auto;
+    max-width: 1200px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.ss-item {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    border: 1px solid #e5e7eb;
+}
+
+/* Animación escalonada para servicio social */
+.social-service-section.is-visible .ss-item {
+    opacity: 1;
+    transform: translateX(0);
+}
+.social-service-section.is-visible .ss-item:nth-child(1) { transition-delay: 0.1s; }
+.social-service-section.is-visible .ss-item:nth-child(2) { transition-delay: 0.2s; }
 
 
 /* Skills Section */
@@ -341,10 +392,11 @@ body::after {
 }
 
 .skill-item {
-    border: 1px solid #d0e0ff; /* Borde más claro */
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición elástica */
-    border-radius: 20px; /* Más redondeado */
+    border: 1px solid #d0e0ff;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 20px;
     overflow: hidden;
+    height: 100%; /* Asegura la misma altura */
     /* Estilos para animación de entrada escalonada */
     opacity: 0;
     transform: translateY(30px) scale(0.95);
@@ -364,38 +416,38 @@ body::after {
 .skills-section.is-visible .skill-item:nth-child(4) { transition-delay: 0.4s; }
 .skills-section.is-visible .skill-item:nth-child(5) { transition-delay: 0.5s; }
 .skills-section.is-visible .skill-item:nth-child(6) { transition-delay: 0.6s; }
+.skills-section.is-visible .skill-item:nth-child(7) { transition-delay: 0.7s; }
 
 
 .skill-item:hover {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Sombra más fuerte al pasar el mouse */
-    transform: translateY(-8px) scale(1.02); /* Mayor elevación */
-    border-color: #3b82f6; /* Borde de color primario */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px) scale(1.02);
+    border-color: #3b82f6;
 }
+
+/* Colores de Título de Habilidad más atractivos */
+.skill-python { color: #facc15; /* Amarillo vibrante */ }
+.skill-html { color: #f97316; /* Naranja intenso */ }
+.skill-css { color: #3b82f6; /* Azul primario */ }
+.skill-django { color: #10b981; /* Verde esmeralda */ }
+.skill-nginx { color: #ef4444; /* Rojo */ }
+.skill-ai { color: #a855f7; /* Púrpura */ }
+.skill-mantenimiento { color: #ec4899; /* Rosa */ }
+
+/* Colores para las barras de nivel */
+.level-bar.bg-yellow-500 { background-color: #facc15; }
+.level-bar.bg-orange-600 { background-color: #f97316; }
+.level-bar.bg-blue-600 { background-color: #2563eb; }
+.level-bar.bg-green-500 { background-color: #10b981; }
+.level-bar.bg-red-600 { background-color: #dc2626; }
+.level-bar.bg-purple-500 { background-color: #a855f7; }
+.level-bar.bg-pink-500 { background-color: #ec4899; }
 
 .skill-title {
-    font-size: 1.6rem; /* Más grande */
+    font-size: 1.6rem;
     font-weight: 700;
-    color: #3b82f6;
+    color: #1f2937;
 }
-
-.skill-python {
-    font-size: 1.6rem; /* Más grande */
-    font-weight: 700;
-    color: #bf7e05;
-}
-
-.skill-java {
-    font-size: 1.6rem; /* Más grande */
-    font-weight: 700;
-    color: #a60c0c;
-}
-
-.skill-html{
-    font-size: 1.6rem; /* Más grande */
-    font-weight: 700;
-    color: #c75001;
-}
-
 
 .skill-description {
     color: #555;
@@ -403,7 +455,7 @@ body::after {
 }
 
 .level-bar-container {
-    height: 10px; /* Más grueso */
+    height: 10px;
     border-radius: 9999px;
     overflow: hidden;
 }
@@ -411,7 +463,7 @@ body::after {
 .level-bar {
     height: 100%;
     border-radius: 9999px;
-    animation: fillBar 1.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* Animación elástica */
+    animation: fillBar 1.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
     width: 0;
 }
 
@@ -432,10 +484,11 @@ body::after {
 }
 
 .portfolio-item {
-    border: 1px solid #d0e0ff;
+    border: 1px solid #e5e7eb;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border-radius: 20px;
     overflow: hidden;
+    height: 100%; /* Asegura la misma altura */
     /* Estilos para animación de entrada escalonada */
     opacity: 0;
     transform: translateY(30px) scale(0.95);
@@ -451,10 +504,7 @@ body::after {
 /* Aplica retrasos incrementales usando nth-child */
 .portfolio-section.is-visible .portfolio-item:nth-child(1) { transition-delay: 0.1s; }
 .portfolio-section.is-visible .portfolio-item:nth-child(2) { transition-delay: 0.2s; }
-.portfolio-section.is-visible .portfolio-item:nth-child(3) { transition-delay: 0.3s; }
-.portfolio-section.is-visible .portfolio-item:nth-child(4) { transition-delay: 0.4s; }
-.portfolio-section.is-visible .portfolio-item:nth-child(5) { transition-delay: 0.5s; }
-.portfolio-section.is-visible .portfolio-item:nth-child(6) { transition-delay: 0.6s; }
+/* ... (agregar más para más tarjetas) */
 
 
 .portfolio-item:hover {
@@ -474,7 +524,7 @@ body::after {
 
 .project-links a:hover {
     color: #2563eb;
-    transform: translateX(5px); /* Ligeramente a la derecha */
+    transform: translateX(5px);
 }
 
 /* Contact Section */
@@ -489,16 +539,44 @@ body::after {
 .button {
     display: inline-flex;
     align-items: center;
-    padding: 1rem 2.5rem; /* Más relleno */
+    padding: 1rem 2.5rem;
     border-radius: 50px;
-    font-weight: 700; /* Más audaz */
+    font-weight: 700;
     text-decoration: none;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición elástica */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Sombra más pronunciada */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     position: relative;
-    overflow: hidden; /* Para el efecto de onda */
+    overflow: hidden;
     z-index: 1;
 }
+
+/* Botón pequeño para certificaciones */
+.button-small {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background-color: #3b82f6;
+    color: white;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+}
+
+.button-small:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+}
+
+.button-small-secondary {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background-color: #e5e7eb;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 
 /* Efecto de onda al hacer clic/hover */
 .button::before {
@@ -508,7 +586,7 @@ body::after {
     left: 50%;
     width: 0;
     height: 0;
-    background: rgba(255, 255, 255, 0.2); /* Onda blanca semi-transparente */
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
@@ -551,11 +629,11 @@ body::after {
 
 /* Footer */
 .footer {
-    background-color: #2c3e50;
+    background-color: #1f2937; /* Color más oscuro para el footer */
     color: #ecf0f1;
-    padding: 2.5rem 0; /* Más relleno */
+    padding: 2.5rem 0;
     border-top: 5px solid #3b82f6;
-    border-radius: 20px 20px 0 0; /* Más redondeado */
+    border-radius: 20px 20px 0 0;
 }
 
 /* Media Queries para Responsividad */
@@ -573,21 +651,22 @@ body::after {
     }
 
     .nav-menu .nav-link {
-        margin: 0.5rem 0.75rem;
+        margin: 0.5rem 0.6rem;
+        font-size: 0.875rem; /* Ajuste para caber más links */
     }
 
     .hero-title {
-        font-size: 2.8rem; /* Ajuste para móvil */
+        font-size: 2.5rem;
     }
 
     .hero-subtitle {
-        font-size: 1.4rem; /* Ajuste para móvil */
+        font-size: 1.25rem;
     }
 
     .social-links .social-icon {
-        width: 45px;
-        height: 45px;
-        margin: 0 0.6rem;
+        width: 40px;
+        height: 40px;
+        margin: 0 0.5rem;
     }
 
     .section {
@@ -595,7 +674,7 @@ body::after {
     }
 
     .section-title {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
 
     .about-content {
@@ -612,7 +691,7 @@ body::after {
         margin-left: 0;
     }
 
-    .skills-grid, .portfolio-grid, .studies-grid {
+    .studies-grid, .cert-grid, .social-service-grid, .skills-grid, .portfolio-grid {
         grid-template-columns: 1fr;
     }
 

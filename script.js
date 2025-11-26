@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Animación de fade-in y transform para las secciones al hacer scroll (Intersection Observer)
+    // 2. Animación de fade-in y transform para TODAS las secciones al hacer scroll (Intersection Observer)
     const sections = document.querySelectorAll('.section');
     const sectionTitleObserverOptions = {
         root: null,
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const textToType = heroSubtitle.textContent;
     heroSubtitle.textContent = ''; // Limpia el contenido inicial
     let charIndex = 0;
-    const typingSpeed = 40; // Velocidad de escritura en ms, ligeramente más rápida
+    const typingSpeed = 40; // Velocidad de escritura en ms
 
     function typeWriter() {
         if (charIndex < textToType.length) {
