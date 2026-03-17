@@ -3,25 +3,539 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donovan- Desarrollador Web</title>
-    <!-- Enlace a la hoja de estilos CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Enlace a los iconos de Lucide (usado para un toque moderno) -->
+    <title>Donovan - Desarrollador Web & Ingeniero</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
     <style>
-        /* Define la fuente Inter desde Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        /* =========================================
+           VARIABLES Y ESTILOS BASE
+           ========================================= */
+        :root {
+            --bg-dark: #050b14;
+            --surface-dark: #111827;
+            --surface-light: #1f2937;
+            --primary-neon: #00f2fe;
+            --secondary-neon: #4facfe;
+            --accent-purple: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            line-height: 1.6;
+            background-color: var(--bg-dark);
+            overflow-x: hidden;
+        }
+
+        .font-mono-tech {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Animación de fondo */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.15;
+            z-index: -1;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        body::before {
+            top: -10vh;
+            left: -10vw;
+            width: 50vw;
+            height: 50vh;
+            background: radial-gradient(circle, var(--primary-neon), transparent 70%);
+            animation: float1 25s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            bottom: -10vh;
+            right: -10vw;
+            width: 60vw;
+            height: 60vh;
+            background: radial-gradient(circle, var(--accent-purple), transparent 70%);
+            animation: float2 30s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes float1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(15vw, 20vh) scale(1.2); }
+        }
+
+        @keyframes float2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-15vw, -20vh) scale(1.1); }
+        }
+
+        /* =========================================
+           SECCIONES Y TÍTULOS
+           ========================================= */
+        .section {
+            padding: 7rem 0;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.75rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3.5rem;
+            color: var(--text-main);
+            position: relative;
+            padding-bottom: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%) scaleX(0);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-neon), var(--accent-purple));
+            border-radius: 2px;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.6s;
+            transform-origin: center;
+        }
+
+        .section-title.is-visible::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* =========================================
+           HEADER & NAV
+           ========================================= */
+        .header {
+            background-color: rgba(5, 11, 20, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: fadeInDown 0.6s ease-out;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: opacity 0.3s ease, text-shadow 0.3s ease;
+            letter-spacing: -0.02em;
+            display: inline-block;
+        }
+        @media (min-width: 768px) {
+            .logo { font-size: 1.5rem; }
+        }
+
+        .logo span {
+            color: var(--primary-neon);
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .nav-menu .nav-link {
+            margin-left: 1.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-neon);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease-out;
+            box-shadow: 0 0 8px var(--primary-neon);
+        }
+
+        .nav-menu .nav-link:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-menu .nav-link:hover {
+            color: var(--text-main);
+        }
+
+        /* =========================================
+           MENÚ FLOTANTE MÓVIL (NUEVO)
+           ========================================= */
+        .floating-btn {
+            background-color: var(--primary-neon);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+            border: 2px solid transparent;
+        }
+        
+        .floating-btn:hover {
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.8);
+            transform: scale(1.1);
+        }
+
+        .mobile-nav-link {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--text-main);
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .mobile-nav-link span {
+            color: var(--primary-neon);
+        }
+
+        /* =========================================
+           HERO SECTION
+           ========================================= */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: -80px; 
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInScaleUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            color: var(--primary-neon);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+        @media (min-width: 768px) {
+            .hero-title { font-size: 5rem; }
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--primary-neon), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 30px rgba(168, 85, 247, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            min-height: 2rem; 
+        }
+        @media (min-width: 768px) {
+            .hero-subtitle { font-size: 1.5rem; }
+        }
+
+        .social-links .social-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--surface-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin: 0 0.8rem;
+            color: var(--text-muted);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .social-links .social-icon:hover {
+            background-color: rgba(0, 242, 254, 0.1);
+            color: var(--primary-neon);
+            border-color: var(--primary-neon);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.2);
+        }
+
+        /* =========================================
+           TARJETAS GLOBALES (Glassmorphism & Tech)
+           ========================================= */
+        .tech-card {
+            background-color: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .tech-card:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .is-visible .stagger-item { opacity: 1; transform: translateY(0) scale(1); }
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .stagger-item:nth-child(1) { transition-delay: 0.1s; }
+        .stagger-item:nth-child(2) { transition-delay: 0.2s; }
+        .stagger-item:nth-child(3) { transition-delay: 0.3s; }
+        .stagger-item:nth-child(4) { transition-delay: 0.4s; }
+        .stagger-item:nth-child(5) { transition-delay: 0.5s; }
+        .stagger-item:nth-child(6) { transition-delay: 0.6s; }
+
+        /* =========================================
+           ABOUT SECTION
+           ========================================= */
+        .about-text p { color: var(--text-muted); margin-bottom: 1rem; }
+        .about-text strong { color: var(--text-main); font-weight: 600; }
+        .about-image img {
+            border: 2px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.15);
+            padding: 5px;
+            background: var(--surface-dark);
+        }
+        .animate-pulse-slight { animation: pulse-border 4s infinite ease-in-out; }
+        @keyframes pulse-border {
+            0% { border-color: rgba(0, 242, 254, 0.3); box-shadow: 0 0 30px rgba(0, 242, 254, 0.15); }
+            50% { border-color: rgba(168, 85, 247, 0.5); box-shadow: 0 0 40px rgba(168, 85, 247, 0.25); }
+            100% { border-color: rgba(0, 242, 254, 0.3); box-shadow: 0 0 30px rgba(0, 242, 254, 0.15); }
+        }
+
+        /* =========================================
+           HABILIDADES (SKILLS)
+           ========================================= */
+        .skill-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skill-python { color: #facc15; }
+        .skill-html { color: #f97316; }
+        .skill-css { color: var(--primary-neon); }
+        .skill-django { color: #10b981; }
+        .skill-nginx { color: #ef4444; }
+        .skill-ai { color: var(--accent-purple); }
+        .skill-mantenimiento { color: #ec4899; }
+
+        .level-bar-container {
+            background-color: var(--surface-light);
+            height: 6px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .level-bar {
+            height: 100%;
+            border-radius: 10px;
+            width: 0; 
+            position: relative;
+        }
+
+        .level-bar::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+            to { width: var(--skill-width); }
+        }
+
+        /* =========================================
+           PORTAFOLIO & CERTIFICACIONES
+           ========================================= */
+        .portfolio-item img {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            opacity: 0.85;
+            transition: opacity 0.3s ease, transform 0.5s ease;
+        }
+        
+        .portfolio-item:hover img { opacity: 1; transform: scale(1.03); }
+        .image-wrapper { overflow: hidden; }
+        .cert-icon-wrapper {
+            background: rgba(0, 242, 254, 0.1);
+            padding: 0.75rem;
+            border-radius: 12px;
+            color: var(--primary-neon);
+        }
+
+        /* =========================================
+           BOTONES
+           ========================================= */
+        .btn-neon {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background: transparent;
+            border: 1px solid var(--primary-neon);
+            color: var(--primary-neon);
+        }
+
+        .btn-neon::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.2), transparent);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-neon:hover::before { left: 100%; }
+        .btn-neon:hover {
+            background: rgba(0, 242, 254, 0.1);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-neon-solid {
+            background: var(--primary-neon);
+            color: var(--bg-dark);
+            border: 1px solid var(--primary-neon);
+        }
+        
+        .btn-neon-solid:hover {
+            background: #00d2dd;
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+        }
+
+        .btn-small { padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 6px; }
+        .btn-disabled { border-color: var(--surface-light); color: var(--text-muted); cursor: not-allowed; }
+        .btn-disabled:hover { background: transparent; box-shadow: none; transform: none; }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        .footer {
+            background-color: var(--surface-dark);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 3rem 0;
+            position: relative;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-neon), transparent);
+            opacity: 0.5;
+        }
+
+        /* Animaciones base */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScaleUp {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
-            <a href="#" class="logo">Donovan Eduardo Contreras Diaz</a>
-            <nav class="nav-menu">
+
+    <!-- ================= HEADER (DESKTOP) ================= -->
+    <header class="header flex items-center">
+        <div class="container mx-auto px-6 flex justify-between items-center w-full">
+            <!-- Logo Dinámico con ID para JavaScript -->
+            <a href="#" class="logo" id="dynamic-logo">BIENVENIDOS</a>
+            
+            <!-- Menú normal oculto en móviles (solo visible en pantallas medianas/grandes) -->
+            <nav class="nav-menu hidden md:flex items-center">
                 <a href="#about" class="nav-link">Sobre Mí</a>
                 <a href="#studies" class="nav-link">Estudios</a>
                 <a href="#certifications" class="nav-link">Certificaciones</a>
-                <a href="#social-service" class="nav-link">Servicio Social</a>
+                <a href="#experience" class="nav-link">Experiencia</a>
                 <a href="#skills" class="nav-link">Habilidades</a>
                 <a href="#portfolio" class="nav-link">Portafolio</a>
                 <a href="#contact" class="nav-link">Contacto</a>
@@ -29,327 +543,536 @@
         </div>
     </header>
 
+    <!-- ================= MENÚ MÓVIL (PANTALLA COMPLETA) ================= -->
+    <div id="mobile-menu" class="fixed inset-0 bg-gray-900/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center space-y-8 md:hidden">
+        <a href="#about" class="mobile-nav-link">Sobre Mí</a>
+        <a href="#studies" class="mobile-nav-link">Estudios</a>
+        <a href="#certifications" class="mobile-nav-link">Certificaciones</a>
+        <a href="#experience" class="mobile-nav-link">Experiencia</a>
+        <a href="#skills" class="mobile-nav-link">Habilidades</a>
+        <a href="#portfolio" class="mobile-nav-link">Portafolio</a>
+        <a href="#contact" class="mobile-nav-link">Contacto</a>
+    </div>
+
+    <!-- ================= BOTÓN FLOTANTE (SOLO MÓVIL) ================= -->
+    <button id="floating-menu-btn" class="fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center z-50 transition-transform duration-300 md:hidden floating-btn" aria-label="Abrir menú">
+        <i data-lucide="menu" id="icon-menu"></i>
+        <i data-lucide="x" id="icon-close" class="hidden"></i>
+    </button>
+
     <main>
-        <section id="hero" class="hero-section flex items-center justify-center text-center">
+        <!-- ================= HERO ================= -->
+        <section id="hero" class="hero-section text-center px-4">
             <div class="hero-content">
-                <h1 class="hero-title">Hola, soy <span class="highlight">Donovan Diaz</span></h1>
-                <p class="hero-subtitle">Apasionado por el desarrollo web y la programación.</p>
+                <span class="hero-tag font-mono-tech">{'Ingeniero en Computación'}</span>
+                <h1 class="hero-title text-gray-100">
+                    Hola, soy <br class="md:hidden"/> <span class="highlight">Donovan Diaz</span>
+                </h1>
+                <p class="hero-subtitle font-mono-tech mt-4">
+                    <!-- JS rellenará este texto -->
+                </p>
                 <div class="social-links mt-8">
-                    <a href="https://github.com/donodiaz03" target="_blank" rel="noopener noreferrer" class="social-icon">
-                        <!-- Reemplazando img por SVG de Lucide para consistencia visual y animaciones CSS -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.23c2.8.35 5.5 1.4 5.5 6.02v.22c0 2.2-1.5 4-3.5 4a6.5 6.5 0 0 1-3.26-1.07c-.39.23-.74.46-1.06.69-.75.58-1.46.99-2.34.99-.88 0-1.59-.41-2.34-.99-.32-.23-.67-.46-1.06-.69A6.5 6.5 0 0 1 2 20v-.22c0-4.62 2.7-5.67 5.5-6.02A4.8 4.8 0 0 0 6 18v4"/><path d="M9 18a.3.3 0 0 1-.45-.09A.3.3 0 0 1 9 18zm5 0a.3.3 0 0 1-.45-.09A.3.3 0 0 1 14 18z"/><path d="M9 18a.3.3 0 0 1-.45-.09A.3.3 0 0 1 9 18z"/></svg>
+                    <a href="https://github.com/donodiaz03" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                        <i data-lucide="github"></i>
                     </a>
-                    <a href="https://www.linkedin.com/in/donovan-eduardo-contreras-diaz-274820351/" target="_blank" rel="noopener noreferrer" class="social-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    <a href="https://www.linkedin.com/in/donovan-eduardo-contreras-diaz-274820351/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+                        <i data-lucide="linkedin"></i>
                     </a>
-                    <a href="mailto:donodiaz07@gmail.com" class="social-icon">
-                        <!-- Usando SVG de Lucide para Email -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <a href="mailto:donodiaz07@gmail.com" class="social-icon" aria-label="Email">
+                        <i data-lucide="mail"></i>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="section about-section">
-            <div class="container mx-auto px-4 py-16">
+        <!-- ================= SOBRE MÍ ================= -->
+        <section id="about" class="section">
+            <div class="container mx-auto px-6 max-w-5xl">
                 <h2 class="section-title">Sobre Mí</h2>
-                <div class="about-content flex flex-col md:flex-row items-center justify-between mt-8">
-                    <div class="about-text md:w-2/3 text-lg leading-relaxed">
-                        <p>Recién egresado de la carrera de Ingeniería en Computación, 
-                            con una profunda curiosidad por transformar ideas en soluciones funcionales. 
-                            Mi enfoque para el autoaprendizaje es práctico y moderno: 
-                            utilizo herramientas de IA para generar código, convirtiendo cada resultado en una lección interactiva. 
-                            Analizo, modifico y pruebo este código hasta dominar la lógica detrás de él, 
-                            lo que me permite construir conocimiento sólido a partir de la práctica y mantenerme a la vanguardia tecnológica.</p>
+                <div class="tech-card p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-10">
+                    <div class="about-text md:w-2/3 text-lg">
+                        <p>
+                            Recién egresado de la carrera de <strong>Ingeniería en Computación</strong>, 
+                            con una profunda curiosidad por transformar ideas complejas en soluciones funcionales y escalables.
+                        </p>
+                        <p>
+                            Mi enfoque para el autoaprendizaje es práctico y moderno: utilizo herramientas de <strong>Inteligencia Artificial</strong> para optimizar procesos y generar código, convirtiendo cada resultado en una lección interactiva.
+                        </p>
+                        <p>
+                            Analizo, modifico y pruebo arquitecturas hasta dominar la lógica detrás de ellas. Esto me permite construir un conocimiento sólido a partir de la práctica constante y mantenerme siempre a la vanguardia tecnológica en un sector que evoluciona rápidamente.
+                        </p>
                     </div>
-                    <div class="about-image md:w-1/3 mt-8 md:mt-0 md:ml-8">
-                        <img src="yo.jpg" onerror="this.onerror=null; this.src='https://placehold.co/300x300/F0F4F8/3B82F6?text=Tu+Foto';" alt="Tu Foto de Perfil" class="rounded-full shadow-lg w-48 h-48 md:w-64 md:h-64 object-cover mx-auto animate-pulse-slight">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN DE ESTUDIOS -->
-        <section id="studies" class="section studies-section bg-gray-50">
-            <div class="container mx-auto px-4 py-16">
-                <h2 class="section-title">Estudios</h2>
-                <div class="studies-grid grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                    <!-- Escuela 1 -->
-                    <div class="study-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
-                        <div class="study-logos flex justify-center items-center mb-4 space-x-4">
-                            <img src="img/IPNLOGO.png" onerror="this.onerror=null; this.src='https://placehold.co/80x80/60A5FA/FFFFFF?text=IPN';" alt="Logo IPN" class="study-logo h-20">
-                            <img src="img/ESIMELOGO.png" onerror="this.onerror=null; this.src='https://placehold.co/80x80/60A5FA/FFFFFF?text=ESIME';" alt="Logo ESIME" class="study-logo h-20">
-                        </div>
-                        <div class="study-info mt-auto">
-                            <h3 class="study-title text-center">Instituto Politécnico Nacional</h3>
-                            <h3 class="study-subtitle text-center">ESIME Unidad Culhuacán</h3>
-                            <p class="study-description text-center mt-2 font-bold">Ingeniería en Computación</p>
-                            <p class="study-date text-center text-sm text-gray-500 mt-1">2021 - 2025</p>
-                        </div>
-                    </div>
-                    <!-- Escuela 2 -->
-                    <div class="study-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
-                         <div class="study-logos flex justify-center items-center mb-4">
-                            <img src="img/CONALEPLOGO.png" onerror="this.onerror=null; this.src='https://placehold.co/80x80/10B981/FFFFFF?text=CONALEP';" alt="Logo Conalep" class="study-logo h-24">
-                        </div>
-                        <div class="study-info mt-auto">
-                            <h3 class="study-conalep-title text-center">Conalep Tlalpan I</h3>
-                            <p class="study-description text-center mt-2 font-bold">Técnico-Bachiller en Informática</p>
-                            <p class="study-date text-center text-sm text-gray-500 mt-1">2017 - 2020</p>
-                        </div>
+                    <div class="about-image md:w-1/3 flex justify-center">
+                        <img src="yo.jpg" onerror="this.onerror=null; this.src='https://placehold.co/300x300/111827/00f2fe?text=Foto';" alt="Donovan Diaz" class="rounded-full w-56 h-56 object-cover animate-pulse-slight">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- NUEVA SECCIÓN: CERTIFICACIONES -->
-        <section id="certifications" class="section certifications-section">
-            <div class="container mx-auto px-4 py-16">
+        <!-- ================= ESTUDIOS ================= -->
+        <section id="studies" class="section relative">
+            <div class="container mx-auto px-6 max-w-5xl">
+                <h2 class="section-title">Formación Académica</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <div class="tech-card p-8 stagger-item flex flex-col h-full">
+                        <div class="flex items-center justify-center mb-6 space-x-6 h-20">
+                            <!-- Logos con filtro para adaptarse al dark mode en caso de ser muy blancos -->
+                            <img src="img/IPNLOGO.png" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1f2937/00f2fe?text=IPN';" alt="IPN" class="h-16 drop-shadow-md">
+                            <img src="img/ESIMELOGO.png" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1f2937/a855f7?text=ESIME';" alt="ESIME" class="h-16 drop-shadow-md">
+                        </div>
+                        <div class="text-center mt-auto">
+                            <h3 class="text-xl font-bold text-gray-100">Instituto Politécnico Nacional</h3>
+                            <h4 class="text-md text-gray-400 font-medium mb-3">ESIME Unidad Culhuacán</h4>
+                            <div class="inline-block bg-gray-800 text-cyan-400 font-mono-tech text-sm px-3 py-1 rounded-md mb-2">Ingeniería en Computación</div>
+                            <p class="text-sm text-gray-500 font-mono-tech mt-2"><i data-lucide="calendar" class="inline w-4 h-4 mr-1"></i>2021 - 2025</p>
+                        </div>
+                    </div>
+
+                    <div class="tech-card p-8 stagger-item flex flex-col h-full">
+                        <div class="flex items-center justify-center mb-6 h-20">
+                            <img src="img/CONALEPLOGO.png" onerror="this.onerror=null; this.src='https://placehold.co/80x80/1f2937/10b981?text=CONALEP';" alt="Conalep" class="h-20 drop-shadow-md">
+                        </div>
+                        <div class="text-center mt-auto">
+                            <h3 class="text-xl font-bold text-gray-100">Conalep Tlalpan I</h3>
+                            <div class="inline-block bg-gray-800 text-green-400 font-mono-tech text-sm px-3 py-1 rounded-md mt-4 mb-2">Técnico-Bachiller en Informática</div>
+                            <p class="text-sm text-gray-500 font-mono-tech mt-2"><i data-lucide="calendar" class="inline w-4 h-4 mr-1"></i>2017 - 2020</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CERTIFICACIONES ================= -->
+        <section id="certifications" class="section">
+            <div class="container mx-auto px-6 max-w-6xl">
                 <h2 class="section-title">Certificaciones</h2>
-                <div class="cert-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-                    <!-- Certificación 1: Programador POO -->
-                    <div class="cert-item p-6 rounded-xl shadow-lg bg-white border-b-4 border-blue-500 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-xl text-gray-800">Programador (Orientado a Objetos)</h3>
-                            <!-- Icono de certificado -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="6"/><path d="M15.47 11.23a3 3 0 0 1 2.36 2.36L22 19l-4-4-2 2-4-4"/></svg>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <div class="tech-card p-6 stagger-item">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="cert-icon-wrapper">
+                                <i data-lucide="award" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono-tech text-gray-500 bg-gray-800 px-2 py-1 rounded">Julio 2024</span>
                         </div>
-                        <p class="text-sm text-gray-600 mt-2">Plataforma: Capacítate para el empleo</p>
-                        <p class="text-sm text-gray-500 mt-1">Fecha de Obtención: Julio 2024</p>
-                        <a href="pdf/Certificado Programador (orientado a objetos).pdf" target="_blank" rel="noopener noreferrer" class="button button-small mt-4 flex items-center justify-center">
-                            Ver Certificado
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text ml-2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 16H8"/><path d="M16 12H8"/><path d="M16 20H8"/></svg>
+                        <h3 class="font-bold text-lg text-gray-100 mb-2">Programador (Orientado a Objetos)</h3>
+                        <p class="text-sm text-gray-400 mb-6 flex items-center"><i data-lucide="monitor" class="w-4 h-4 mr-2"></i> Capacítate para el empleo</p>
+                        <a href="pdf/Certificado Programador (orientado a objetos).pdf" target="_blank" rel="noopener noreferrer" class="btn-neon btn-small w-full justify-center">
+                            Ver Certificado <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
                         </a>
                     </div>
 
-                    <!-- Certificación : Nube -->
-                    <div class="cert-item p-6 rounded-xl shadow-lg bg-white border-b-4 border-blue-500 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-xl text-gray-800">PROPEDÉUTICO DE CÓMPUTO EN LA NUBE</h3>
-                            <!-- Icono de certificado -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="6"/><path d="M15.47 11.23a3 3 0 0 1 2.36 2.36L22 19l-4-4-2 2-4-4"/></svg>
+                    <div class="tech-card p-6 stagger-item">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="cert-icon-wrapper">
+                                <i data-lucide="cloud" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono-tech text-gray-500 bg-gray-800 px-2 py-1 rounded">Enero 2026</span>
                         </div>
-                        <p class="text-sm text-gray-600 mt-2">Plataforma: MOOC · TecNM (TECNOLÓGICO NACIONAL DE MÉXICO)</p>
-                        <p class="text-sm text-gray-500 mt-1">Fecha de Obtención: Enero 2026</p>
-                        <a href="pdf/Certificado Tecnológico Nacional de México PNUBE-CPF _ Cursos MOOC TecNM 2026.pdf" target="_blank" rel="noopener noreferrer" class="button button-small mt-4 flex items-center justify-center">
-                            Ver Certificado
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text ml-2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 16H8"/><path d="M16 12H8"/><path d="M16 20H8"/></svg>
+                        <h3 class="font-bold text-lg text-gray-100 mb-2">Propedéutico de Cómputo en la Nube</h3>
+                        <p class="text-sm text-gray-400 mb-6 flex items-center"><i data-lucide="monitor" class="w-4 h-4 mr-2"></i> MOOC · TecNM</p>
+                        <a href="pdf/Certificado Tecnológico Nacional de México PNUBE-CPF _ Cursos MOOC TecNM 2026.pdf" target="_blank" rel="noopener noreferrer" class="btn-neon btn-small w-full justify-center">
+                            Ver Certificado <i data-lucide="external-link" class="w-4 h-4 ml-2"></i>
                         </a>
                     </div>
 
-                    <!-- Certificación 2: Fundamentos de Programación -->
-                    <div class="cert-item p-6 rounded-xl shadow-lg bg-white border-b-4 border-blue-500 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-xl text-gray-800">Python TOTAL</h3>
-                            <!-- Icono de certificado -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="6"/><path d="M15.47 11.23a3 3 0 0 1 2.36 2.36L22 19l-4-4-2 2-4-4"/></svg>
+                    <div class="tech-card p-6 stagger-item">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="cert-icon-wrapper" style="color: #facc15; background: rgba(250, 204, 21, 0.1);">
+                                <i data-lucide="terminal" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono-tech text-yellow-500 bg-yellow-900/30 px-2 py-1 rounded">En curso</span>
                         </div>
-                        <p class="text-sm text-gray-600 mt-2">Plataforma: Udemy</p>
-                        <p class="text-sm text-gray-500 mt-1">Fecha de Obtención: En curso</p>
-                        <a href="" target="_blank" rel="noopener noreferrer" class="button button-small mt-4 flex items-center justify-center">
-                            Pronto Disponible
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text ml-2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 16H8"/><path d="M16 12H8"/><path d="M16 20H8"/></svg>
-                        </a>
+                        <h3 class="font-bold text-lg text-gray-100 mb-2">Python TOTAL</h3>
+                        <p class="text-sm text-gray-400 mb-6 flex items-center"><i data-lucide="monitor" class="w-4 h-4 mr-2"></i> Udemy</p>
+                        <button class="btn-neon btn-small btn-disabled w-full justify-center" disabled>
+                            Próximamente <i data-lucide="clock" class="w-4 h-4 ml-2"></i>
+                        </button>
                     </div>
 
-                    <!-- Certificación 3: Python TOTAL -->
-                    <div class="cert-item p-6 rounded-xl shadow-lg bg-white border-b-4 border-blue-500 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-xl text-gray-800">Hacking Ético y Ciberseguridad</h3>
-                            <!-- Icono de certificado -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award"><circle cx="12" cy="8" r="6"/><path d="M15.47 11.23a3 3 0 0 1 2.36 2.36L22 19l-4-4-2 2-4-4"/></svg>
+                    <div class="tech-card p-6 stagger-item">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="cert-icon-wrapper" style="color: #ef4444; background: rgba(239, 68, 68, 0.1);">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-mono-tech text-yellow-500 bg-yellow-900/30 px-2 py-1 rounded">En curso</span>
                         </div>
-                        <p class="text-sm text-gray-600 mt-2">Plataforma: Udemy</p>
-                        <p class="text-sm text-gray-500 mt-1">Fecha de Obtención: En curso</p>
-                        <a href="" target="_blank" rel="noopener noreferrer" class="button button-small mt-4 flex items-center justify-center">
-                            Pronto Disponible
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text ml-2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 16H8"/><path d="M16 12H8"/><path d="M16 20H8"/></svg>
-                        </a>
+                        <h3 class="font-bold text-lg text-gray-100 mb-2">Hacking Ético y Ciberseguridad</h3>
+                        <p class="text-sm text-gray-400 mb-6 flex items-center"><i data-lucide="monitor" class="w-4 h-4 mr-2"></i> Udemy</p>
+                        <button class="btn-neon btn-small btn-disabled w-full justify-center" disabled>
+                            Próximamente <i data-lucide="clock" class="w-4 h-4 ml-2"></i>
+                        </button>
                     </div>
 
                 </div>
             </div>
         </section>
 
-        <!-- NUEVA SECCIÓN: SERVICIO SOCIAL -->
-        <section id="social-service" class="section social-service-section bg-gray-50">
-            <div class="container mx-auto px-4 py-16">
+        <!-- ================= SERVICIO SOCIAL / EXPERIENCIA ================= -->
+        <section id="experience" class="section">
+            <div class="container mx-auto px-6 max-w-4xl">
                 <h2 class="section-title">Servicio Social</h2>
-                <div class="social-service-grid grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                    <!-- Servicio Social 1 -->
-                    <div class="ss-item p-8 rounded-xl shadow-lg bg-white border-l-8 border-yellow-500 hover:shadow-2xl transition-all duration-300 transform hover:translate-x-1">
-                        <h3 class="font-extrabold text-2xl text-yellow-700 mb-2">PEMEX (Corportaivo)</h3>
-                        <p class="font-semibold text-lg text-gray-800">Gerencia Juridica </p>
-                        <p class="text-sm text-gray-500 mt-1">Enero 2025 - Julio 2025 (480 horas)</p>
-                        <ul class="list-disc list-inside text-gray-700 mt-4 space-y-2">
-                            Trabajo de consulta de informacion de documentos escaneados, digitales (Word, Pdf), utilizando COPILOT intregado en EDGE para extraer información que se requeria, con la finalidad de reducir el tiempo de lectura y captura de informacion</li>
-                        </ul>
+                <div class="tech-card p-8 border-l-4 border-yellow-500 stagger-item">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h3 class="font-extrabold text-2xl text-gray-100">PEMEX <span class="text-yellow-500 font-normal text-lg">(Corporativo)</span></h3>
+                            <p class="font-semibold text-lg text-cyan-400 mt-1">Gerencia Jurídica</p>
+                        </div>
+                        <div class="mt-2 md:mt-0 text-sm font-mono-tech text-gray-500 bg-gray-800 px-3 py-1 rounded-full border border-gray-700">
+                            Ene 2025 - Jul 2025 (480 hrs)
+                        </div>
                     </div>
                     
-                </div>
-            </div>
-        </section>
-
-
-        <section id="skills" class="section skills-section">
-            <div class="container mx-auto px-4 py-16">
-                <h2 class="section-title">Habilidades Técnicas</h2>
-                <div class="skills-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-                    <!-- Ejemplo de Habilidad 1 -->
-                    <div class="skill-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <h3 class="skill-python">Python</h3>
-                        <p class="skill-description mt-2">Fundamentos, P.O.O, Programas a nivel Consola</p>
-                        <div class="skill-level mt-4">
-                            <div class="level-bar-container bg-gray-200 rounded-full h-2">
-                                <div class="level-bar bg-yellow-500 h-full rounded-full" style="width: 60%;"></div>
-                            </div>
-                            <span class="level-text text-sm text-gray-600 mt-1 block text-right">60%</span>
-                        </div>
-                    </div>
-                    <!-- Habilidad 2 -->
-                    <div class="skill-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <h3 class="skill-html">HTML</h3>
-                        <p class="skill-description mt-2">Básica (Enfocado en la Estructura Semántica)</p>
-                        <div class="skill-level mt-4">
-                            <div class="level-bar-container bg-gray-200 rounded-full h-2">
-                                <div class="level-bar bg-orange-600 h-full rounded-full" style="width: 20%;"></div>
-                            </div>
-                            <span class="level-text text-sm text-gray-600 mt-1 block text-right">20%</span>
-                        </div>
-                    </div>
-                    <!-- Habilidad 3 -->
-                    <div class="skill-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <h3 class="skill-css">CSS (Con Tailwind)</h3>
-                        <p class="skill-description mt-2">Intermedio (Diseño Responsivo, Animaciones)</p>
-                        <div class="skill-level mt-4">
-                            <div class="level-bar-container bg-gray-200 rounded-full h-2">
-                                <div class="level-bar bg-blue-600 h-full rounded-full" style="width: 20%;"></div>
-                            </div>
-                            <span class="level-text text-sm text-gray-600 mt-1 block text-right">20%</span>
-                        </div>
-                    </div>
-                    <!-- Habilidad 4 -->
-                    <div class="skill-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <h3 class="skill-django">Django</h3>
-                        <p class="skill-description mt-2">Configuración de URLs, Vistas y Modelos (MVC básico).</p>
-                        <div class="skill-level mt-4">
-                            <div class="level-bar-container bg-gray-200 rounded-full h-2">
-                                <div class="level-bar bg-green-500 h-full rounded-full" style="width: 40%;"></div>
-                            </div>
-                            <span class="level-text text-sm text-gray-600 mt-1 block text-right">40%</span>
-                        </div>
-                    </div>
-
-                    <!-- Habilidad 5 -->
-                    <div class="skill-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <h3 class="skill-nginx">NGINX</h3>
-                        <p class="skill-description mt-2">Usado como servidor web en S.O. Fedora 41 (Virtual Box).</p>
-                        <div class="skill-level mt-4">
-                            <div class="level-bar-container bg-gray-200 rounded-full h-2">
-                                <div class="level-bar bg-red-600 h-full rounded-full" style="width: 30%;"></div>
-                            </div>
-                            <span class="level-text text-sm text-gray-600 mt-1 block text-right">30%</span>
-                        </div>
-                    </div>
-
-                    <!-- Habilidad 6 -->
-                    <div class="skill-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <h3 class="skill-ai">Inteligencia Artificial Generativa</h3>
-                        <p class="skill-description mt-2">Generación de código, imágenes y optimización de flujos de trabajo.</p>
-                        <div class="skill-level mt-4">
-                            <div class="level-bar-container bg-gray-200 rounded-full h-2">
-                                <div class="level-bar bg-purple-500 h-full rounded-full" style="width: 85%;"></div>
-                            </div>
-                            <span class="level-text text-sm text-gray-600 mt-1 block text-right">85%</span>
-                        </div>
-                    </div>
-
-                    <!-- Habilidad 7 -->
-                    <div class="skill-item p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                        <h3 class="skill-mantenimiento">Mantenimiento de PC</h3>
-                        <p class="skill-description mt-2">Diagnóstico, limpieza de hardware, instalación de S.O. y aplicaciones.</p>
-                        <div class="skill-level mt-4">
-                            <div class="level-bar-container bg-gray-200 rounded-full h-2">
-                                <div class="level-bar bg-pink-500 h-full rounded-full" style="width: 90%;"></div>
-                            </div>
-                            <span class="level-text text-sm text-gray-600 mt-1 block text-right">90%</span>
-                        </div>
+                    <div class="mt-6 bg-gray-800/50 p-5 rounded-lg border border-gray-700">
+                        <ul class="text-gray-300 space-y-3">
+                            <li class="flex items-start">
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-yellow-500 mt-0.5 mr-2 flex-shrink-0"></i>
+                                <span>Trabajo de consulta y minería de información de documentos escaneados y digitales (Word, PDF).</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="chevron-right" class="w-5 h-5 text-yellow-500 mt-0.5 mr-2 flex-shrink-0"></i>
+                                <span>Utilización de <strong>IA (Copilot en Edge)</strong> para extraer y sintetizar datos clave requeridos, reduciendo drásticamente los tiempos de lectura y captura manual de información legal.</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="portfolio" class="section portfolio-section bg-gray-50">
-            <div class="container mx-auto px-4 py-16">
-                <h2 class="section-title">Mi Portafolio</h2>
-                <div class="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-                    <!-- Proyecto 1 -->
-                    <div class="portfolio-item rounded-xl shadow-md bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                        <img src="https://placehold.co/400x250/3B82F6/FFFFFF?text=Proyecto+IA+PEMEX" alt="Proyecto 1" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="font-semibold text-xl text-gray-800">Sistema conversacional basado en IA y PLN para consulta de denuncias en PEMEX</h3>
-                            <p class="text-gray-600 mt-2 text-sm">Desarrollado con Python (Deep Seek) y API de Azure (OneDrive) para automatizar la consulta de documentos en el área de gerencia jurídica.</p>
-                            <div class="project-links mt-4">
-                                <a href="#" target="_blank" rel="noopener noreferrer" class="text-gray-400 flex items-center text-sm cursor-default">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock mr-1"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                    Acceso Restringido
-                                </a>
+        <!-- ================= HABILIDADES TÉCNICAS ================= -->
+        <section id="skills" class="section">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <h2 class="section-title">Stack Tecnológico</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <div class="tech-card p-6 stagger-item">
+                        <h3 class="skill-title skill-python"><i data-lucide="terminal-square" class="w-5 h-5"></i> Python</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4 h-10">Fundamentos, POO, Scripts a nivel consola.</p>
+                        <div class="skill-level">
+                            <div class="flex justify-between text-xs mb-1 font-mono-tech">
+                                <span class="text-gray-500">Nivel</span>
+                                <span class="text-yellow-500">60%</span>
+                            </div>
+                            <div class="level-bar-container">
+                                <div class="level-bar bg-yellow-500" style="width: 60%; box-shadow: 0 0 10px #facc15;"></div>
                             </div>
                         </div>
                     </div>
-                     <!-- Proyecto 2 -->
-                    <div class="portfolio-item rounded-xl shadow-md bg-white overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                        <img src="img/SELOGO.jpg" onerror="this.onerror=null; this.src='https://placehold.co/400x250/60A5FA/FFFFFF?text=Star+Eyes';" alt="Proyecto 2" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="font-semibold text-xl text-gray-800">Página Web de colectivo de DJs de Música Electrónica (STAR EYES)</h3>
-                            <p class="text-gray-600 mt-2 text-sm">Página informativa con galería y música. Desarrollada con HTML, CSS, JavaScript y apoyo de IA Generativa.</p>
-                            <div class="project-links mt-4">
-                                <a href="https://github.com/donodiaz03/stareyes" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline flex items-center text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github mr-1"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.23c2.8.35 5.5 1.4 5.5 6.02v.22c0 2.2-1.5 4-3.5 4a6.5 6.5 0 0 1-3.26-1.07c-.39.23-.74.46-1.06.69-.75.58-1.46.99-2.34.99-.88 0-1.59-.41-2.34-.99-.32-.23-.67-.46-1.06-.69A6.5 6.5 0 0 1 2 20v-.22c0-4.62 2.7-5.67 5.5-6.02A4.8 4.8 0 0 0 6 18v4"/><path d="M9 18a.3.3 0 0 1-.45-.09A.3.3 0 0 1 9 18zm5 0a.3.3 0 0 1-.45-.09A.3.3 0 0 1 14 18z"/><path d="M9 18a.3.3 0 0 1-.45-.09A.3.3 0 0 1 9 18z"/></svg>
-                                    Código
-                                </a>
-                                <a href="https://donodiaz03.github.io/stareyes/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline flex items-center mt-2 text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link mr-1"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                                    Ver Página
-                                </a>
+
+                    <div class="tech-card p-6 stagger-item">
+                        <h3 class="skill-title skill-html"><i data-lucide="layout-template" class="w-5 h-5"></i> HTML</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4 h-10">Estructura semántica y accesibilidad básica.</p>
+                        <div class="skill-level">
+                            <div class="flex justify-between text-xs mb-1 font-mono-tech">
+                                <span class="text-gray-500">Nivel</span>
+                                <span class="text-orange-500">80%</span>
+                            </div>
+                            <div class="level-bar-container">
+                                <div class="level-bar bg-orange-500" style="width: 80%; box-shadow: 0 0 10px #f97316;"></div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="tech-card p-6 stagger-item">
+                        <h3 class="skill-title skill-css"><i data-lucide="palette" class="w-5 h-5"></i> CSS & Tailwind</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4 h-10">Diseño Responsivo, Flexbox, Grid y Animaciones.</p>
+                        <div class="skill-level">
+                            <div class="flex justify-between text-xs mb-1 font-mono-tech">
+                                <span class="text-gray-500">Nivel</span>
+                                <span class="text-blue-500">70%</span>
+                            </div>
+                            <div class="level-bar-container">
+                                <div class="level-bar bg-blue-500" style="width: 70%; box-shadow: 0 0 10px #3b82f6;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card p-6 stagger-item">
+                        <h3 class="skill-title skill-django"><i data-lucide="server" class="w-5 h-5"></i> Django</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4 h-10">Ruteo, Vistas, Modelos (Arquitectura MTV).</p>
+                        <div class="skill-level">
+                            <div class="flex justify-between text-xs mb-1 font-mono-tech">
+                                <span class="text-gray-500">Nivel</span>
+                                <span class="text-emerald-500">40%</span>
+                            </div>
+                            <div class="level-bar-container">
+                                <div class="level-bar bg-emerald-500" style="width: 40%; box-shadow: 0 0 10px #10b981;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card p-6 stagger-item">
+                        <h3 class="skill-title skill-nginx"><i data-lucide="hard-drive" class="w-5 h-5"></i> NGINX / Linux</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4 h-10">Despliegue local en Fedora 41 (Virtual Box).</p>
+                        <div class="skill-level">
+                            <div class="flex justify-between text-xs mb-1 font-mono-tech">
+                                <span class="text-gray-500">Nivel</span>
+                                <span class="text-red-500">30%</span>
+                            </div>
+                            <div class="level-bar-container">
+                                <div class="level-bar bg-red-500" style="width: 30%; box-shadow: 0 0 10px #ef4444;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card p-6 stagger-item">
+                        <h3 class="skill-title skill-ai"><i data-lucide="sparkles" class="w-5 h-5"></i> Gen AI</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4 h-10">Prompting, generación de código y automatización.</p>
+                        <div class="skill-level">
+                            <div class="flex justify-between text-xs mb-1 font-mono-tech">
+                                <span class="text-gray-500">Nivel</span>
+                                <span class="text-purple-500">85%</span>
+                            </div>
+                            <div class="level-bar-container">
+                                <div class="level-bar bg-purple-500" style="width: 85%; box-shadow: 0 0 10px #a855f7;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card p-6 stagger-item md:col-span-2 lg:col-span-3">
+                        <h3 class="skill-title skill-mantenimiento"><i data-lucide="cpu" class="w-5 h-5"></i> Hardware & Mantenimiento PC</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4">Diagnóstico profundo, limpieza de hardware, instalación de S.O. y optimización de equipos informáticos.</p>
+                        <div class="skill-level">
+                            <div class="flex justify-between text-xs mb-1 font-mono-tech">
+                                <span class="text-gray-500">Nivel</span>
+                                <span class="text-pink-500">90%</span>
+                            </div>
+                            <div class="level-bar-container">
+                                <div class="level-bar bg-pink-500" style="width: 90%; box-shadow: 0 0 10px #ec4899;"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="section contact-section">
-            <div class="container mx-auto px-4 py-16 text-center">
-                <h2 class="section-title">Contacto</h2>
-                <p class="text-lg text-gray-700 mt-4">¿Interesado en colaborar o simplemente quieres saludar? ¡No dudes en contactarme!</p>
-                <div class="contact-methods mt-8">
-                    <a href="mailto:donodiaz02@gmail.com" class="button button-primary">
-                        Enviar Correo
-                        <!-- Usando SVG de Lucide para Email en el botón -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail ml-2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <!-- ================= PORTAFOLIO ================= -->
+        <section id="portfolio" class="section">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <h2 class="section-title">Proyectos Destacados</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    
+                    <div class="tech-card portfolio-item stagger-item flex flex-col">
+                        <div class="image-wrapper relative">
+                            <img src="https://placehold.co/600x350/0f172a/00f2fe?text=Proyecto+IA+PEMEX" alt="Proyecto PEMEX" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur text-xs font-mono-tech text-cyan-400 px-3 py-1 rounded-full border border-cyan-500/30">
+                                Python / NLP
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-bold text-xl text-gray-100 mb-3">Sistema Conversacional basado en IA</h3>
+                            <p class="text-gray-400 text-sm flex-grow">
+                                Consulta inteligente de denuncias en PEMEX usando PLN. Desarrollado con scripts de Python (Deep Seek) y la API de Azure (OneDrive) para automatizar la lectura y búsqueda de documentos en el área jurídica.
+                            </p>
+                            <div class="mt-6 pt-4 border-t border-gray-700">
+                                <span class="text-gray-500 flex items-center text-sm cursor-default">
+                                    <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Proyecto Interno / Acceso Restringido
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card portfolio-item stagger-item flex flex-col">
+                        <div class="image-wrapper relative">
+                            <img src="img/SELOGO.jpg" onerror="this.onerror=null; this.src='https://placehold.co/600x350/0f172a/a855f7?text=Star+Eyes';" alt="Star Eyes DJ" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur text-xs font-mono-tech text-purple-400 px-3 py-1 rounded-full border border-purple-500/30">
+                                HTML / CSS / JS
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-bold text-xl text-gray-100 mb-3">Web Oficial: Colectivo STAR EYES</h3>
+                            <p class="text-gray-400 text-sm flex-grow">
+                                Plataforma web para colectivo de DJs de música electrónica. Incluye diseño responsivo, reproductor embebido y galería inmersiva. Desarrollado desde cero con asistencia de IA Generativa.
+                            </p>
+                            <div class="mt-6 pt-4 border-t border-gray-700 flex space-x-4">
+                                <a href="https://github.com/donodiaz03/stareyes" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 flex items-center text-sm transition-colors">
+                                    <i data-lucide="github" class="w-4 h-4 mr-1"></i> Código
+                                </a>
+                                <a href="https://donodiaz03.github.io/stareyes/" target="_blank" rel="noopener noreferrer" class="text-purple-400 hover:text-purple-300 flex items-center text-sm transition-colors">
+                                    <i data-lucide="external-link" class="w-4 h-4 mr-1"></i> Visitar Sitio
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONTACTO ================= -->
+        <section id="contact" class="section relative">
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-64 bg-cyan-900/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="container mx-auto px-6 max-w-3xl text-center relative z-10">
+                <h2 class="section-title">Iniciemos un Proyecto</h2>
+                <p class="text-lg text-gray-300 mb-10">
+                    ¿Interesado en colaborar, tienes una vacante o simplemente quieres hablar sobre tecnología y desarrollo? Mi bandeja de entrada está abierta.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                    <a href="mailto:donodiaz07@gmail.com" class="btn-neon btn-neon-solid w-full sm:w-auto justify-center text-lg">
+                        <i data-lucide="mail" class="w-5 h-5 mr-2"></i> Enviar Correo
                     </a>
-                    <a href="https://www.linkedin.com/in/donovan-eduardo-contreras-diaz-274820351/" target="_blank" rel="noopener noreferrer" class="button button-secondary mt-4 md:mt-0 md:ml-4">
-                        Conectar en LinkedIn
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin ml-2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    <a href="https://www.linkedin.com/in/donovan-eduardo-contreras-diaz-274820351/" target="_blank" rel="noopener noreferrer" class="btn-neon w-full sm:w-auto justify-center text-lg">
+                        <i data-lucide="linkedin" class="w-5 h-5 mr-2"></i> LinkedIn
                     </a>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
-            <p>&copy; 2025 Todos los derechos reservados.</p>
-            <p class="mt-2">Diseñado por Donovan Eduardo Contreras Diaz.</p>
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer text-center">
+        <div class="container mx-auto px-6">
+            <a href="#" class="logo text-2xl mb-4 block">&lt;D/&gt;</a>
+            <p class="text-gray-500 text-sm font-mono-tech">
+                &copy; 2026 Donovan Eduardo Contreras Diaz.<br>Construido con lógica, estilo y <span class="text-primary-neon">pasión</span>.
+            </p>
         </div>
     </footer>
 
-    <!-- Enlace al script JavaScript -->
-    <script src="script.js"></script>
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // Inicializa los iconos de Lucide
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar Iconos
+            lucide.createIcons();
+
+            // 1. MANEJO DEL LOGO DINÁMICO (Scroll Event)
+            const dynamicLogo = document.getElementById('dynamic-logo');
+            let isScrolled = false;
+
+            window.addEventListener('scroll', () => {
+                const shouldBeScrolled = window.scrollY > 50;
+                
+                if (shouldBeScrolled !== isScrolled) {
+                    isScrolled = shouldBeScrolled;
+                    
+                    // Efecto suave de cambio (Fade Out -> Cambia texto -> Fade In)
+                    dynamicLogo.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        if (isScrolled) {
+                            dynamicLogo.innerHTML = '&lt;Donovan <span>Diaz</span>/&gt;';
+                        } else {
+                            dynamicLogo.innerHTML = 'BIENVENIDOS';
+                        }
+                        dynamicLogo.style.opacity = '1';
+                    }, 300); // Mismo tiempo que el "transition" en CSS
+                }
+            });
+
+            // 2. MANEJO DEL MENÚ MÓVIL Y BOTÓN FLOTANTE
+            const floatingBtn = document.getElementById('floating-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconMenu = document.getElementById('icon-menu');
+            const iconClose = document.getElementById('icon-close');
+
+            function toggleMobileMenu() {
+                // Alternar visibilidad del menú desplegable
+                mobileMenu.classList.toggle('translate-x-full');
+                
+                // Alternar entre el ícono de Hamburguesa (Menu) y la X (Cerrar)
+                iconMenu.classList.toggle('hidden');
+                iconClose.classList.toggle('hidden');
+                
+                // Si el menú está abierto, deshabilitar scroll en la página de fondo
+                if (!mobileMenu.classList.contains('translate-x-full')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            floatingBtn.addEventListener('click', toggleMobileMenu);
+
+            // Cerrar menú móvil automáticamente al hacer click en un enlace
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMobileMenu();
+                });
+            });
+
+            // 3. Desplazamiento suave (Smooth Scroll) general
+            document.querySelectorAll('.nav-menu a, .mobile-nav-link, a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href').substring(1); 
+                    if (!targetId) return;
+                    
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        e.preventDefault(); 
+                        const headerHeight = document.querySelector('.header').offsetHeight;
+                        const offsetTop = targetSection.offsetTop - headerHeight; 
+
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth' 
+                        });
+                    }
+                });
+            });
+
+            // 4. Observer para Secciones (Fade-in global)
+            const sections = document.querySelectorAll('.section, .section-title');
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { root: null, rootMargin: '0px', threshold: 0.15 });
+
+            sections.forEach(section => sectionObserver.observe(section));
+
+            // 5. Observer para Barras de Habilidad
+            const skillBars = document.querySelectorAll('.level-bar');
+            const skillObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillWidth = entry.target.style.width; 
+                        entry.target.style.setProperty('--skill-width', skillWidth);
+                        entry.target.style.width = skillWidth; 
+                        entry.target.style.animation = 'fillBar 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            skillBars.forEach(bar => skillObserver.observe(bar));
+
+            // 6. Efecto Máquina de Escribir (Typewriter) en Hero
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            const textToType = "Apasionado por el desarrollo de software, arquitectura de sistemas y soluciones creativas.";
+            heroSubtitle.textContent = ''; 
+            
+            let charIndex = 0;
+            const typingSpeed = 45; 
+
+            function typeWriter() {
+                if (charIndex < textToType.length) {
+                    heroSubtitle.textContent += textToType.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, typingSpeed);
+                } else {
+                    heroSubtitle.innerHTML += '<span class="animate-pulse text-primary-neon">_</span>';
+                }
+            }
+
+            const heroSection = document.getElementById('hero');
+            const heroObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(typeWriter, 800); 
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            if(heroSection) heroObserver.observe(heroSection);
+        });
     </script>
 </body>
 </html>
